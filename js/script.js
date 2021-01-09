@@ -1,16 +1,18 @@
-/* Задание на урок:
-1) У нас уже есть рабочее приложение, состоящее из отдельных функций. Представьте, что
-перед вами стоит задача переписать его так, чтобы все функции стали методами объекта personalMovieDB
-Такое случается в реальных продуктах при смене технологий или подхода к архитектуре программы
-2) Создать метод toggleVisibleMyDB, который при вызове будет проверять свойство privat. Если оно false - он
-переключает его в true, если true - переключает в false. Протестировать вместе с showMyDB.
-3) В методе writeYourGenres запретить пользователю нажать кнопку "отмена" или оставлять пустую строку. 
-Если он это сделал - возвращать его к этому же вопросу. После того, как все жанры введены - 
-при помощи метода forEach вывести в консоль сообщения в таком виде:
-"Любимый жанр #(номер по порядку, начиная с 1) - это (название из массива)"*/
+/* Задания на урок:
 
+1) Удалить все рекламные блоки со страницы (правая часть сайта)
 
-"use strict";
+2) Изменить жанр фильма, поменять "комедия" на "драма"
+
+3) Изменить задний фон постера с фильмом на изображение "bg.jpg". Оно лежит в папке img.
+Реализовать только при помощи JS
+
+4) Список фильмов на странице сформировать на основании данных из этого JS файла.
+Отсортировать их по алфавиту 
+
+5) Добавить нумерацию выведенных фильмов */
+
+'use strict';
 let personalMovieDB = {
     movies : {},
     actors : {},
@@ -69,15 +71,35 @@ let personalMovieDB = {
         }
     }           
 };
+
 // personalMovieDB.askQuantityFilm();
 // personalMovieDB.askFilm();
 // personalMovieDB.rasingFilm();
- personalMovieDB.writeYourGenres();
+// personalMovieDB.writeYourGenres();
 //  personalMovieDB.toggleVisibleMyDB();
+let reclama = document.querySelectorAll('.promo__adv>img');
+reclama.forEach(function (item){
+    item.remove();
+});
+let comed = document.querySelector('.promo__genre');
+comed.textContent = "Драмма";
+let fon = document.querySelector('.promo__bg');
+fon.style.cssText = 'background:url("img/bg.jpg") 0 0/cover no-repeat ';
+const movieDB = {
+    movies: [
+        "Логан",
+        "Лига справедливости",
+        "Ла-ла лэнд",
+        "Одержимость",
+        "Скотт Пилигрим против..."
+    ]
+};
+movieDB.movies.sort();
+let promoFilm = document.querySelectorAll('.promo__interactive-item');
+console.log(promoFilm);
+movieDB.movies.forEach(function(item,i){
+promoFilm[i].innerHTML =i+1 + ' ' + item;
 
-
-
-
-
+});
 
 
