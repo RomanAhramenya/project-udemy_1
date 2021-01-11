@@ -12,7 +12,7 @@ P.S. Здесь есть несколько вариантов решения з
 
 'use strict';
 document.addEventListener('DOMContentLoaded', ()=>{
-let personalMovieDB = {
+  let personalMovieDB = {
     movies : {},
     actors : {},
     genres : [],
@@ -76,6 +76,16 @@ let personalMovieDB = {
 // personalMovieDB.rasingFilm();
 // personalMovieDB.writeYourGenres();
 //  personalMovieDB.toggleVisibleMyDB();
+document.querySelectorAll('.promo__adv>img').forEach(function (item){
+  item.remove();
+  });
+document.querySelector('.promo__genre').textContent = "Драмма";
+document.querySelector('.promo__bg').style.cssText = 'background:url("img/bg.jpg") 0 0/cover no-repeat ';
+
+
+
+
+
 const movieDB = {
   movies: [
       "Логан",
@@ -85,55 +95,56 @@ const movieDB = {
       "Скотт Пилигрим против..."
   ]
 };
-let comed = document.querySelector('.promo__genre');
-comed.textContent = "Драмма";
-let fon = document.querySelector('.promo__bg');
-fon.style.cssText = 'background:url("img/bg.jpg") 0 0/cover no-repeat ';
-let promoFilm = document.querySelector('.promo__interactive-list');
-const getInputAdd = document.querySelector('form.add'),
-      getInput =getInputAdd.querySelector('.adding__input'),
-      getChecked = getInputAdd.querySelector('[type = "checkbox"]');
-const reclama = document.querySelectorAll('.promo__adv>img');
-reclama.forEach(function (item){
-    item.remove();
+let movieDBArrey = movieDB.movies,
+      AddForm = document.querySelector('form.add'),
+      promoFilm = document.querySelector('.promo__interactive-list'),
+      AddInput = AddForm.querySelector('.adding__input'),
+      AddCheck = AddForm.querySelector('[type = "checkbox"]');
+  AddForm.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      let inputVal = AddInput.value;
+      let chek = AddCheck.checked;
+      if(inputVal.length > 21){
+        inputVal=`${inputVal.substring(0,22)}...`;
+      }
+      if(inputVal){
+          movieDBArrey.push(inputVal);
+         forEachArray(movieDBArrey,promoFilm);
+      }
+      if(chek){
+        console.log('Ваш любимый фильм добавлен');
+      }
+     
+      Sort(movieDBArrey);
+      AddForm.reset();
+      console.log(movieDBArrey);
+  });
+
+function Sort(arr){
+  arr.sort();
+}
+
+function forEachArray (Film,node){
+  node.innerHTML = "";
+  Sort(movieDBArrey);
+  Film.forEach(function(item,i){
+  node.innerHTML +=`<li class = "promo__interactive-item">${i+1} ${item}
+                  <div class = "delete"></div> </li>`;
 });
-getInputAdd.addEventListener('submit',(event)=>{
-  event.preventDefault();
-  const favorite = getChecked.checked;
-  let Film = getInput.value;
-  if(Film.length > 21){
-    Film = `${Film.substring(0,22)}...`;
-  } if (favorite){
-    console.log('Дбовдляем ваш любимый фильмя');
-  } if (Film){
-      movieDB.movies.push(Film);
-  movieDB.movies.sort();
-  createMoaveList(movieDB.movies,promoFilm);
-  }
-
-  getInputAdd.reset();
-});
-
-movieDB.movies.sort();
-
-function createMoaveList(film,perent){
-  perent.innerHTML = '';
-  film.sort();
-  film.forEach((films,i)=>{
-    perent.innerHTML +=`
-    <li class="promo__interactive-item">${i + 1} ${films}
-      <div class="delete"></div>
-    </li>`;
-    });
-    document.querySelectorAll(".delete").forEach((btn,i)=>{
-      btn.addEventListener('click',()=>{
+    document.querySelectorAll('.delete').forEach((btn,i)=>{
+      btn.addEventListener("click",()=>{
         btn.parentElement.remove();
-        movieDB.movies.splice(i,1);
-        console.log(movieDB.movies);
-        createMoaveList(movieDB.movies,promoFilm);
+        movieDBArrey.splice(i,1);
+        forEachArray(movieDBArrey,promoFilm);
       });
     });
+     
+    
 }
-createMoaveList(movieDB.movies,promoFilm);
+
+
+
+Sort(movieDBArrey);
+forEachArray(movieDBArrey,promoFilm);
 
 });
